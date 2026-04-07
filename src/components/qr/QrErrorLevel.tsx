@@ -1,10 +1,10 @@
 import type { ErrorCorrectionLevel } from '../../types/qr.types';
 
 const LEVELS: { value: ErrorCorrectionLevel; label: string; recovery: string; tip: string }[] = [
-  { value: 'L', label: 'L — Bajo', recovery: '7%', tip: 'Ideal para pantallas digitales limpias' },
-  { value: 'M', label: 'M — Medio', recovery: '15%', tip: 'Balance entre densidad y fiabilidad' },
-  { value: 'Q', label: 'Q — Alto', recovery: '25%', tip: 'Recomendado para impresión general' },
-  { value: 'H', label: 'H — Máximo', recovery: '30%', tip: 'Necesario cuando usas logo central' },
+  { value: 'L', label: 'L', recovery: '7%', tip: 'Pantallas digitales limpias' },
+  { value: 'M', label: 'M', recovery: '15%', tip: 'Uso general, balance óptimo' },
+  { value: 'Q', label: 'Q', recovery: '25%', tip: 'Impresión profesional' },
+  { value: 'H', label: 'H', recovery: '30%', tip: 'Con logo o en exteriores' },
 ];
 
 interface QrErrorLevelProps {
@@ -15,37 +15,43 @@ interface QrErrorLevelProps {
 export function QrErrorLevel({ errorLevel, onChange }: QrErrorLevelProps) {
   return (
     <div>
-      <p className="text-xs font-medium text-gray-600 mb-2">
-        Nivel de corrección de errores
-      </p>
-      <div className="grid grid-cols-2 gap-2">
-        {LEVELS.map((lvl) => (
-          <label
-            key={lvl.value}
-            title={`${lvl.tip} — Recupera hasta el ${lvl.recovery} del código dañado`}
-            className={`flex flex-col p-2.5 rounded-lg border-2 cursor-pointer transition-all ${
-              errorLevel === lvl.value
-                ? 'border-indigo-500 bg-indigo-50'
-                : 'border-gray-200 bg-white hover:border-indigo-200'
-            }`}
-          >
-            <input
-              type="radio"
-              name="errorLevel"
-              value={lvl.value}
-              checked={errorLevel === lvl.value}
-              onChange={() => onChange(lvl.value)}
-              className="sr-only"
-            />
-            <span className={`text-xs font-bold ${errorLevel === lvl.value ? 'text-indigo-700' : 'text-gray-700'}`}>
-              {lvl.label}
-            </span>
-            <span className="text-xs text-gray-500">Recupera {lvl.recovery}</span>
-          </label>
-        ))}
+      <div className="grid grid-cols-4 gap-2">
+        {LEVELS.map((lvl) => {
+          const isActive = errorLevel === lvl.value;
+          return (
+            <label
+              key={lvl.value}
+              title={lvl.tip}
+              className="flex flex-col items-center p-2.5 rounded-lg cursor-pointer transition-all duration-150"
+              style={{
+                backgroundColor: isActive ? 'rgba(212,176,106,0.1)' : '#1a1a1a',
+                border: isActive ? '1px solid rgba(212,176,106,0.4)' : '1px solid rgba(255,255,255,0.07)',
+                boxShadow: isActive ? '0 0 12px rgba(212,176,106,0.1)' : undefined,
+              }}
+            >
+              <input
+                type="radio"
+                name="errorLevel"
+                value={lvl.value}
+                checked={isActive}
+                onChange={() => onChange(lvl.value)}
+                className="sr-only"
+              />
+              <span
+                className="text-sm font-bold font-syne"
+                style={{ color: isActive ? '#d4b06a' : 'rgba(255,255,255,0.6)' }}
+              >
+                {lvl.label}
+              </span>
+              <span className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                {lvl.recovery}
+              </span>
+            </label>
+          );
+        })}
       </div>
-      <p className="mt-2 text-xs text-amber-600">
-        Tip: usa nivel H si agregas un logo central
+      <p className="mt-2.5 text-xs" style={{ color: 'rgba(212,176,106,0.7)' }}>
+        Usa nivel H si agregas un logo central
       </p>
     </div>
   );

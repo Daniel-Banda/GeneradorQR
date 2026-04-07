@@ -2,21 +2,32 @@ import { ReactNode } from 'react';
 
 interface SectionProps {
   title: string;
-  icon: string;
+  icon: ReactNode;
   defaultOpen?: boolean;
   children: ReactNode;
 }
 
 function Section({ title, icon, defaultOpen = false, children }: SectionProps) {
   return (
-    <details open={defaultOpen} className="group border border-gray-200 rounded-xl overflow-hidden">
-      <summary className="flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer select-none">
-        <span className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-          <span>{icon}</span>
+    <details
+      open={defaultOpen}
+      className="rounded-xl overflow-hidden transition-all"
+      style={{ border: '1px solid rgba(255,255,255,0.07)' }}
+    >
+      <summary
+        className="flex items-center justify-between px-4 py-3 cursor-pointer select-none transition-colors duration-150 hover:bg-white/5"
+        style={{ backgroundColor: '#111' }}
+      >
+        <span
+          className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-widest"
+          style={{ color: 'rgba(255,255,255,0.5)', fontFamily: 'Syne, sans-serif' }}
+        >
+          <span style={{ color: '#d4b06a' }}>{icon}</span>
           {title}
         </span>
         <svg
-          className="chevron w-4 h-4 text-gray-400"
+          className="chevron w-3.5 h-3.5"
+          style={{ color: 'rgba(255,255,255,0.25)' }}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -25,7 +36,7 @@ function Section({ title, icon, defaultOpen = false, children }: SectionProps) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </summary>
-      <div className="px-4 py-4 bg-white">
+      <div className="px-4 py-4" style={{ backgroundColor: '#0d0d0d' }}>
         {children}
       </div>
     </details>
@@ -46,13 +57,16 @@ interface QrCustomizationPanelProps {
 export function QrCustomizationPanel({ children }: QrCustomizationPanelProps) {
   return (
     <div className="space-y-2">
-      <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider px-1 mb-3">
+      <p
+        className="text-xs font-semibold uppercase tracking-widest px-1 mb-3"
+        style={{ color: 'rgba(255,255,255,0.2)', fontFamily: 'Syne, sans-serif' }}
+      >
         Personalización
-      </h2>
-      <Section title="Estilo de puntos y esquinas" icon="◼" defaultOpen={true}>
+      </p>
+      <Section title="Estilo de puntos y esquinas" icon="◼" defaultOpen>
         {children.style}
       </Section>
-      <Section title="Colores" icon="🎨">
+      <Section title="Colores" icon="◉">
         {children.colors}
       </Section>
       <Section title="Tamaño y márgenes" icon="↔">
@@ -61,12 +75,9 @@ export function QrCustomizationPanel({ children }: QrCustomizationPanelProps) {
       <Section title="Corrección de errores" icon="⚡">
         {children.errorLevel}
       </Section>
-      <Section title="Logo o imagen central" icon="🖼">
+      <Section title="Logo o imagen central" icon="▣">
         {children.logo}
       </Section>
-      <div className="pt-2">
-        {children.export}
-      </div>
     </div>
   );
 }

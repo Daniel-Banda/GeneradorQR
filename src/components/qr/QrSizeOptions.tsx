@@ -23,9 +23,12 @@ function RangeField({
 }) {
   return (
     <div>
-      <div className="flex justify-between items-center mb-1">
-        <label className="text-xs font-medium text-gray-600">{label}</label>
-        <span className="text-xs font-mono text-indigo-600 font-semibold">
+      <div className="flex justify-between items-center mb-2">
+        <label className="text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>{label}</label>
+        <span
+          className="text-xs font-mono font-semibold px-2 py-0.5 rounded-md"
+          style={{ color: '#d4b06a', backgroundColor: 'rgba(212,176,106,0.1)', border: '1px solid rgba(212,176,106,0.2)' }}
+        >
           {value}{unit}
         </span>
       </div>
@@ -36,9 +39,12 @@ function RangeField({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-indigo-500"
+        className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+        style={{
+          background: `linear-gradient(to right, #d4b06a ${((value - min) / (max - min)) * 100}%, rgba(255,255,255,0.1) ${((value - min) / (max - min)) * 100}%)`,
+        }}
       />
-      <div className="flex justify-between text-xs text-gray-400 mt-1">
+      <div className="flex justify-between text-xs mt-1" style={{ color: 'rgba(255,255,255,0.2)' }}>
         <span>{min}{unit}</span>
         <span>{max}{unit}</span>
       </div>
@@ -48,7 +54,7 @@ function RangeField({
 
 export function QrSizeOptions({ width, margin, onChange }: QrSizeOptionsProps) {
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <div className="grid grid-cols-1 gap-5">
       <RangeField
         label="Tamaño del QR"
         value={width}

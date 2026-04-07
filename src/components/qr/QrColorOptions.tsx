@@ -26,24 +26,39 @@ function ColorSwatch({ label, color, onChange, allowTransparent, isTransparent, 
   }, [open]);
 
   const swatchBg = isTransparent
-    ? 'repeating-conic-gradient(#e5e7eb 0% 25%, #fff 0% 50%) 0 0 / 10px 10px'
+    ? 'repeating-conic-gradient(#2a2a2a 0% 25%, #1a1a1a 0% 50%) 0 0 / 10px 10px'
     : color;
 
   return (
     <div>
-      <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>
-      <div className="flex items-center gap-2" ref={wrapperRef}>
+      <label
+        className="block text-xs mb-2"
+        style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'Inter, sans-serif' }}
+      >
+        {label}
+      </label>
+      <div className="flex items-center gap-3" ref={wrapperRef}>
         <div className="relative">
           <button
             type="button"
             onClick={() => setOpen(!open)}
             disabled={isTransparent}
-            className="w-10 h-10 rounded-lg border-2 border-gray-300 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed hover:border-indigo-400 transition-colors"
-            style={{ background: swatchBg }}
+            className="w-10 h-10 rounded-lg transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{
+              background: swatchBg,
+              border: open ? '2px solid #d4b06a' : '2px solid rgba(255,255,255,0.12)',
+              boxShadow: open ? '0 0 12px rgba(212,176,106,0.2)' : undefined,
+            }}
             aria-label={`Seleccionar color: ${label}`}
           />
           {open && !isTransparent && (
-            <div className="color-picker-popover shadow-xl rounded-xl border border-gray-200 bg-white p-2">
+            <div
+              className="color-picker-popover rounded-xl p-3 shadow-2xl"
+              style={{
+                backgroundColor: '#1a1a1a',
+                border: '1px solid rgba(255,255,255,0.1)',
+              }}
+            >
               <HexColorPicker color={color} onChange={onChange} />
               <input
                 type="text"
@@ -53,22 +68,26 @@ function ColorSwatch({ label, color, onChange, allowTransparent, isTransparent, 
                   if (/^#[0-9A-Fa-f]{0,6}$/.test(v)) onChange(v);
                 }}
                 maxLength={7}
-                className="mt-2 w-full px-2 py-1 text-xs font-mono border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                className="mt-2 w-full px-2 py-1.5 text-xs font-mono rounded-lg outline-none"
+                style={{
+                  backgroundColor: '#111',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: '#fff',
+                }}
                 placeholder="#000000"
               />
             </div>
           )}
         </div>
-        <span className="text-sm font-mono text-gray-600">
+        <span className="text-sm font-mono" style={{ color: 'rgba(255,255,255,0.6)' }}>
           {isTransparent ? 'Transparente' : color.toUpperCase()}
         </span>
         {allowTransparent && onTransparentToggle && (
-          <label className="ml-auto flex items-center gap-1.5 text-xs text-gray-600 cursor-pointer">
+          <label className="ml-auto flex items-center gap-1.5 text-xs cursor-pointer" style={{ color: 'rgba(255,255,255,0.4)' }}>
             <input
               type="checkbox"
               checked={isTransparent ?? false}
               onChange={(e) => onTransparentToggle(e.target.checked)}
-              className="rounded border-gray-300 text-indigo-500 focus:ring-indigo-400"
             />
             Transparente
           </label>
@@ -88,7 +107,7 @@ export function QrColorOptions({ fgColor, bgColor, onChange }: QrColorOptionsPro
   const isTransparent = bgColor === 'transparent';
 
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <div className="grid grid-cols-1 gap-5">
       <ColorSwatch
         label="Color de puntos (frente)"
         color={fgColor}

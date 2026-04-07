@@ -28,32 +28,57 @@ export function UrlShortenerTab() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <div className="text-center mb-8">
-        <h2 className="text-xl font-bold text-gray-800">Acortador de URL</h2>
-        <p className="text-sm text-gray-500 mt-1">
-          Convierte cualquier URL larga en un enlace corto y fácil de compartir
+      {/* Title */}
+      <div className="mb-8">
+        <h2
+          className="font-syne font-bold text-2xl sm:text-3xl tracking-tight"
+          style={{ color: '#fff' }}
+        >
+          Acorta cualquier{' '}
+          <span className="text-shimmer">URL larga</span>
+        </h2>
+        <p className="mt-1.5 text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
+          Convierte URLs largas en enlaces cortos y fáciles de compartir.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="long-url" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="long-url"
+            className="block text-xs font-semibold uppercase tracking-widest mb-2"
+            style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'Syne, sans-serif' }}
+          >
             URL larga
           </label>
           <textarea
             id="long-url"
             value={inputUrl}
             onChange={(e) => { setInputUrl(e.target.value); reset(); }}
-            placeholder="https://ejemplo.com/pagina-muy-larga/con-muchos-parametros?ref=abc&utm_source=newsletter"
+            placeholder="https://ejemplo.com/pagina-muy-larga/con-muchos-parametros?ref=abc"
             rows={3}
-            className={`w-full px-4 py-3 rounded-xl border text-sm resize-none outline-none transition-colors focus:ring-2 focus:ring-indigo-400 ${
-              inputUrl && !isValidUrl
-                ? 'border-red-400 bg-red-50'
-                : 'border-gray-300 bg-white focus:border-indigo-400'
-            }`}
+            className="w-full px-4 py-3 rounded-xl text-sm resize-none outline-none transition-all duration-200"
+            style={{
+              backgroundColor: '#111',
+              border: inputUrl && !isValidUrl
+                ? '1px solid rgba(239,68,68,0.5)'
+                : '1px solid rgba(255,255,255,0.08)',
+              color: '#fff',
+              fontFamily: 'Inter, sans-serif',
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.border = inputUrl && !isValidUrl
+                ? '1px solid rgba(239,68,68,0.6)'
+                : '1px solid rgba(212,176,106,0.35)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.border = inputUrl && !isValidUrl
+                ? '1px solid rgba(239,68,68,0.5)'
+                : '1px solid rgba(255,255,255,0.08)';
+            }}
           />
           {inputUrl && !isValidUrl && (
-            <p className="text-xs text-red-600 mt-1">
+            <p className="text-xs mt-1.5" style={{ color: 'rgba(239,68,68,0.8)' }}>
               Ingresa una URL válida que empiece con http:// o https://
             </p>
           )}
@@ -62,11 +87,26 @@ export function UrlShortenerTab() {
         <button
           type="submit"
           disabled={!isValidUrl || loading}
-          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors"
+          className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed"
+          style={
+            isValidUrl && !loading
+              ? {
+                  backgroundColor: '#d4b06a',
+                  color: '#0a0a0a',
+                  boxShadow: '0 0 24px rgba(212,176,106,0.2)',
+                }
+              : {
+                  backgroundColor: '#2a2a2a',
+                  color: 'rgba(255,255,255,0.3)',
+                }
+          }
         >
           {loading ? (
             <>
-              <span className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+              <span
+                className="animate-spin w-4 h-4 border-2 rounded-full"
+                style={{ borderColor: 'rgba(0,0,0,0.2)', borderTopColor: '#0a0a0a' }}
+              />
               Acortando...
             </>
           ) : (
@@ -80,43 +120,59 @@ export function UrlShortenerTab() {
         </button>
       </form>
 
-      {/* Error state */}
+      {/* Error */}
       {error && (
-        <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl">
-          <p className="text-sm text-red-700">{error}</p>
+        <div
+          className="mt-4 p-4 rounded-xl animate-fade-in"
+          style={{ backgroundColor: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)' }}
+        >
+          <p className="text-sm" style={{ color: 'rgba(239,68,68,0.9)' }}>{error}</p>
           <button
             type="button"
             onClick={() => shorten(inputUrl)}
-            className="mt-2 text-xs text-red-600 underline"
+            className="mt-2 text-xs underline"
+            style={{ color: 'rgba(239,68,68,0.6)' }}
           >
             Reintentar
           </button>
         </div>
       )}
 
-      {/* Success state */}
+      {/* Success */}
       {shortUrl && (
-        <div className="mt-6 p-5 bg-indigo-50 border border-indigo-200 rounded-xl space-y-3">
-          <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wider">
+        <div
+          className="mt-6 p-5 rounded-xl space-y-3 animate-fade-in"
+          style={{
+            backgroundColor: 'rgba(212,176,106,0.06)',
+            border: '1px solid rgba(212,176,106,0.2)',
+            boxShadow: '0 0 24px rgba(212,176,106,0.06)',
+          }}
+        >
+          <p
+            className="text-xs font-semibold uppercase tracking-widest"
+            style={{ color: '#d4b06a', fontFamily: 'Syne, sans-serif' }}
+          >
             URL acortada
           </p>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <a
               href={shortUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 text-lg font-bold text-indigo-700 hover:text-indigo-900 truncate transition-colors"
+              className="flex-1 text-lg font-bold font-syne truncate transition-opacity hover:opacity-70"
+              style={{ color: '#fff' }}
             >
               {shortUrl}
             </a>
             <button
               type="button"
               onClick={handleCopy}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150"
+              style={
                 copied
-                  ? 'bg-green-500 text-white'
-                  : 'bg-indigo-600 hover:bg-indigo-700 text-white'
-              }`}
+                  ? { backgroundColor: 'rgba(34,197,94,0.15)', color: '#4ade80', border: '1px solid rgba(34,197,94,0.3)' }
+                  : { backgroundColor: 'rgba(212,176,106,0.1)', color: '#d4b06a', border: '1px solid rgba(212,176,106,0.25)' }
+              }
             >
               {copied ? (
                 <>
@@ -138,24 +194,29 @@ export function UrlShortenerTab() {
           <button
             type="button"
             onClick={handleReset}
-            className="text-xs text-indigo-400 hover:text-indigo-600 transition-colors"
+            className="text-xs transition-opacity hover:opacity-60"
+            style={{ color: 'rgba(255,255,255,0.3)' }}
           >
             Acortar otra URL
           </button>
         </div>
       )}
 
-      {/* Info cards */}
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {/* Info chips */}
+      <div className="mt-8 grid grid-cols-3 gap-3">
         {[
           { icon: '⚡', title: 'Instantáneo', desc: 'Sin registro ni esperas' },
           { icon: '🔗', title: 'Confiable', desc: 'Powered by is.gd' },
-          { icon: '📋', title: 'Fácil de usar', desc: 'Un clic para copiar' },
+          { icon: '📋', title: 'Un clic', desc: 'Para copiar al clipboard' },
         ].map((card) => (
-          <div key={card.title} className="flex flex-col items-center text-center p-3 bg-gray-50 rounded-xl border border-gray-100">
-            <span className="text-2xl mb-1">{card.icon}</span>
-            <span className="text-xs font-semibold text-gray-700">{card.title}</span>
-            <span className="text-xs text-gray-400">{card.desc}</span>
+          <div
+            key={card.title}
+            className="flex flex-col items-center text-center p-3 rounded-xl"
+            style={{ backgroundColor: '#111', border: '1px solid rgba(255,255,255,0.06)' }}
+          >
+            <span className="text-xl mb-1">{card.icon}</span>
+            <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.7)' }}>{card.title}</span>
+            <span className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>{card.desc}</span>
           </div>
         ))}
       </div>

@@ -8,26 +8,43 @@ export function QrUrlInput({ url, onChange }: QrUrlInputProps) {
 
   return (
     <div className="mb-6">
-      <label htmlFor="qr-url" className="block text-sm font-semibold text-gray-700 mb-2">
-        URL para generar el QR
+      <label
+        htmlFor="qr-url"
+        className="block text-xs font-semibold uppercase tracking-widest mb-2"
+        style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'Syne, sans-serif' }}
+      >
+        URL del destino
       </label>
-      <div className="flex gap-2">
-        <input
-          id="qr-url"
-          type="url"
-          value={url}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="https://ejemplo.com"
-          className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-colors outline-none focus:ring-2 focus:ring-indigo-400 ${
-            isInvalid
-              ? 'border-red-400 bg-red-50 focus:ring-red-300'
-              : 'border-gray-300 bg-white focus:border-indigo-400'
-          }`}
-          aria-describedby={isInvalid ? 'url-error' : undefined}
-        />
-      </div>
+      <input
+        id="qr-url"
+        type="url"
+        value={url}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder="https://ejemplo.com"
+        className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200"
+        style={{
+          backgroundColor: '#111',
+          border: isInvalid
+            ? '1px solid rgba(239,68,68,0.5)'
+            : '1px solid rgba(255,255,255,0.08)',
+          color: '#fff',
+          fontFamily: 'Inter, sans-serif',
+          boxShadow: url && !isInvalid ? '0 0 0 1px rgba(212,176,106,0.2)' : undefined,
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.border = isInvalid
+            ? '1px solid rgba(239,68,68,0.6)'
+            : '1px solid rgba(212,176,106,0.35)';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.border = isInvalid
+            ? '1px solid rgba(239,68,68,0.5)'
+            : '1px solid rgba(255,255,255,0.08)';
+        }}
+        aria-describedby={isInvalid ? 'url-error' : undefined}
+      />
       {isInvalid && (
-        <p id="url-error" className="mt-1 text-xs text-red-600">
+        <p id="url-error" className="mt-1.5 text-xs" style={{ color: 'rgba(239,68,68,0.8)' }}>
           Ingresa una URL válida que empiece con http:// o https://
         </p>
       )}

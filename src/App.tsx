@@ -11,12 +11,14 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('qr');
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#0a0a0a', color: '#fff' }}>
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
 
-      <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-8">
+      <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 py-10">
         <div
           role="tabpanel"
+          className="animate-fade-in"
+          key={activeTab}
           aria-label={activeTab === 'qr' ? 'Generador de código QR' : 'Acortador de URL'}
         >
           {activeTab === 'qr' ? <QrGeneratorTab /> : <UrlShortenerTab />}
