@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #6366f1;
+  --color-brand-dark: #4f46e5;
+  --color-brand-light: #818cf8;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Color picker popover */
+.color-picker-popover {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+}
+
+/* Details/Summary chevron animation */
+details summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+}
+
+/* Smooth QR preview transitions */
+#qr-preview canvas,
+#qr-preview svg {
+  transition: width 0.2s ease, height 0.2s ease;
+}
