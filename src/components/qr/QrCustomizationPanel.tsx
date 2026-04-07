@@ -11,12 +11,12 @@ function Section({ title, icon, defaultOpen = false, children }: SectionProps) {
   return (
     <details
       open={defaultOpen}
-      className="rounded-xl overflow-hidden transition-all"
-      style={{ border: '1px solid rgba(255,255,255,0.07)' }}
+      className="rounded-xl transition-all"
+      style={{ border: '1px solid rgba(255,255,255,0.07)', overflow: 'visible' }}
     >
       <summary
         className="flex items-center justify-between px-4 py-3 cursor-pointer select-none transition-colors duration-150 hover:bg-white/5"
-        style={{ backgroundColor: '#111' }}
+        style={{ backgroundColor: '#111', borderRadius: '0.75rem' }}
       >
         <span
           className="flex items-center gap-2.5 text-xs font-semibold uppercase tracking-widest"

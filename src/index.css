@@ -131,15 +131,6 @@ details[open] .chevron {
   transition: transform 0.2s ease;
 }
 
-/* ─── Color picker popover ─────────────────────────────── */
-
-.color-picker-popover {
-  position: absolute;
-  z-index: 50;
-  top: calc(100% + 8px);
-  left: 0;
-}
-
 /* react-colorful dark theme */
 .react-colorful {
   border-radius: 8px !important;
